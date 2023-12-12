@@ -32,6 +32,7 @@ const customers = [
     id: cuid(),
     name: 'Customer 2',
     email: 'customer2@example.com',
+    image_url: 'https://example.com/image1.jpg',
   },
   // Add more customer data as needed
 ];

@@ -21,7 +21,7 @@ model Customer {
   id        String    @id @default(cuid())
   name      String
   email     String    @unique
-  image_url String?
+  image_url String
   invoices  Invoice[]
 }
 
