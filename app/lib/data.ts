@@ -167,18 +167,27 @@ export async function fetchFilteredInvoices(
 export async function fetchInvoicesPages(query: string) {
   noStore();
   try {
-    const count = await sql`SELECT COUNT(*)
-    FROM invoices
-    JOIN customers ON invoices.customer_id = customers.id
-    WHERE
-      customers.name ILIKE ${`%${query}%`} OR
-      customers.email ILIKE ${`%${query}%`} OR
-      invoices.amount::text ILIKE ${`%${query}%`} OR
-      invoices.date::text ILIKE ${`%${query}%`} OR
-      invoices.status ILIKE ${`%${query}%`}
-  `;
+    const count = await prisma.invoice.aggregate({
+      _count: {
+        _all: true,
+      },
+      where: {
+        OR: [
+          { customer: { name: { contains: query, mode: 'insensitive' } } },
+          { customer: { email: { contains: query, mode: 'insensitive' } } },
+          { amount: { equals: parseFloat(query) || 0 } },
+          {
+            date: isNaN(Date.parse(query))
+              ? undefined
+              : { equals: new Date(query) },
+          },
+          { status: { contains: query, mode: 'insensitive' } },
+        ],
+      },
+    });
 
-    const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(count._count._all / ITEMS_PER_PAGE);
+
     return totalPages;
   } catch (error) {
     console.error('Database Error:', error);

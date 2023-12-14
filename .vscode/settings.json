@@ -3,5 +3,10 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma"
+  },
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#3D1F57",
+    "titleBar.activeBackground": "#552C7A",
+    "titleBar.activeForeground": "#FCFBFE"
   }
 }
