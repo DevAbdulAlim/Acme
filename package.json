@@ -4,6 +4,7 @@
     "build": "next build",
     "db-seed": "tsc prisma/seed.ts --esModuleInterop && node prisma/seed.js && rm prisma/seed.js",
     "dev": "next dev",
+    "lint": "next lint",
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown .",
     "seed": "npm run db-seed",
